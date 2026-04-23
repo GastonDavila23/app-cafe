@@ -1,63 +1,66 @@
-// components/WelcomeModal.tsx
 "use client";
 
 import { useState, useEffect } from "react";
-import { dailyMessages } from "@/lib/messages";
 import { useShopStatus } from "@/hooks/useShopStatus";
 
 export default function WelcomeModal() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [message, setMessage] = useState("");
-  
-  // Extraemos toda la información del tiempo desde nuestro Hook
-  const { isShopOpen, timeString, today } = useShopStatus();
+  const { isShopOpen, timeString } = useShopStatus();
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    // Si isShopOpen es null, significa que el hook todavía está calculando la hora. Esperamos.
-    if (isShopOpen === null) return;
-
-    let finalMessage = "";
-
-    // Usamos la variable isShopOpen que viene del hook
-    if (isShopOpen) {
-      const messagesForToday = dailyMessages[today] || ["¡Bienvenido a El Puestito Café!"];
-      const randomIndex = Math.floor(Math.random() * messagesForToday.length);
-      finalMessage = messagesForToday[randomIndex].replace('{hora}', timeString);
-    } else {
-      finalMessage = `¡Hola! Son las ${timeString} y en este momento El Puestito está descansando 😴. Trabajo de 7 AM a 11 AM. Puedes ver el menú, ¡pero te espero mañana tempranito para tu café!`;
+    const hasVisited = sessionStorage.getItem("hasVisitedCafe");
+    if (!hasVisited && !isShopOpen) {
+      setShowModal(true);
     }
+  }, [isShopOpen]);
 
-    setMessage(finalMessage);
+  const closeModal = () => {
+    sessionStorage.setItem("hasVisitedCafe", "true");
+    setShowModal(false);
+  };
 
-    const timer = setTimeout(() => {
-      setIsOpen(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [isShopOpen, timeString, today]); // El useEffect reacciona si estas variables cambian
-
-  // Si no está abierto o aún está calculando la hora, no renderizamos nada
-  if (!isOpen || isShopOpen === null) return null;
+  if (!showModal) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl p-6 max-w-sm w-full text-center shadow-2xl transform transition-all">
-        <h2 className="text-2xl font-black text-neutral-800 mb-2">
-          {isShopOpen ? "☕ ¡Hola!" : "🌙 ¡Puestito Cerrado!"}
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-5 pt-safe">
+      
+      <div className="bg-white p-8 rounded-3xl shadow-2xl border border-neutral-100 max-w-sm w-full relative flex flex-col items-center text-center">
+        
+        <div className="relative mb-6 p-5 rounded-3xl bg-neutral-100 flex items-center justify-center group">
+          <span className="text-8xl select-none opacity-80 group-hover:opacity-100 transition-opacity">
+            😴
+          </span>
+          {/* El detalle Pro: un círculo del color de Mercado Pago con el emoji de café */}
+          <div className="absolute -bottom-2 -right-2 bg-[#009EE3] p-3 rounded-full shadow-lg border-2 border-white">
+            <span className="text-xl">☕</span>
+          </div>
+        </div>
+
+        <h2 className="text-2xl font-extrabold text-neutral-800 mb-3 leading-tight tracking-tighter">
+          ¡El Puestito <span className="text-[#009EE3]">descansa</span>!
         </h2>
-        <p className="text-neutral-600 text-lg mb-6">
-          {message}
-        </p>
-        <button 
-          onClick={() => setIsOpen(false)}
-          className={`w-full font-bold py-3 px-4 rounded-xl transition-colors text-white ${
-            isShopOpen 
-              ? "bg-emerald-500 hover:bg-emerald-600" 
-              : "bg-neutral-800 hover:bg-neutral-900"
-          }`}
+
+        <div className="text-neutral-600 text-sm space-y-4 mb-10 leading-relaxed max-w-[280px]">
+          <p>
+            ¡Hola! Son las <span className="font-semibold text-neutral-800">{timeString}</span> y en este momento ya cerramos por hoy.
+          </p>
+          
+          <div className="bg-neutral-100 px-4 py-2.5 rounded-full inline-block font-semibold text-neutral-700">
+            Trabajamos de 7 AM a 11 AM ☕
+          </div>
+
+          <p>
+            Dale una mirada al menú igual, ¡te espero mañana tempranito!
+          </p>
+        </div>
+
+        <button
+          onClick={closeModal}
+          className="w-full bg-neutral-900 hover:bg-black text-white font-bold py-3 px-4 rounded-xl transition-colors shadow-md"
         >
-          {isShopOpen ? "¡Quiero mi café!" : "Ver el menú igual"}
+          Ver el menú igual
         </button>
+
       </div>
     </div>
   );

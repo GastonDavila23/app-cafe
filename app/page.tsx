@@ -1,8 +1,10 @@
 import { supabase } from "@/lib/supabase";
-import ProductCard, { Product } from "@/components/ProductCard";
 import WelcomeModal from "@/components/WelcomeModal";
+import BottomNav from "@/components/BottomNav";
+import Header from "@/components/Header";
+import ProductList from "@/components/ProductList";
 
-export const revalidate = 0; // Sin caché, siempre datos frescos
+export const revalidate = 0;
 
 export default async function Home() {
   const { data: products, error } = await supabase
@@ -15,20 +17,14 @@ export default async function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-neutral-100 py-10 px-4">
-      {/* El modal dinámico */}
+    <main className="min-h-screen bg-neutral-100 pt-12 pb-28 px-5">
       <WelcomeModal /> 
-      
-      <header className="max-w-md mx-auto text-center mb-10">
-        <h1 className="text-4xl font-extrabold text-neutral-800 mb-2">El Puestito Café</h1>
-        <p className="text-neutral-600 text-lg">Escanea, pide y disfruta tu café al instante.</p>
-      </header>
 
-      <section className="max-w-md mx-auto grid grid-cols-1 gap-6 md:max-w-4xl md:grid-cols-2">
-        {products?.map((product: Product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </section>
+      <Header />
+      
+      <ProductList products={products} />
+
+      <BottomNav />
     </main>
   );
 }
