@@ -12,7 +12,7 @@ export interface Product {
 
 export default function ProductCard({ product }: { product: Product }) {
   const { isShopOpen } = useShopStatus(); 
-  const whatsappNumber = "549XXXXXXXXXX"; // Tu número
+  const whatsappNumber = "5492616948318";
 
   const handleOrder = () => {
     const text = `¡Hola! Quiero pedir un ${product.name} ($${product.price}).`;
