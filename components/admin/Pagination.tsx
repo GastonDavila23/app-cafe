@@ -9,7 +9,6 @@ interface PaginationProps {
 }
 
 export default function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
-  // Si no hay páginas, igual renderizamos el contenedor con altura fija para no romper el diseño
   if (totalPages <= 1) {
     return <div className="h-[73px] bg-neutral-50 dark:bg-neutral-900 border-t border-neutral-100 dark:border-neutral-700 rounded-b-3xl"></div>;
   }

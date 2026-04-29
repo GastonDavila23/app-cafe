@@ -7,7 +7,7 @@ export default function Header() {
         <div className="mb-6">
           <img 
             src="/logo-uno.png" 
-            alt="Logo El Puestito Café" 
+            alt="Logo de Punto Café" 
             className="w-40 h-40 object-contain drop-shadow-sm" 
           />
         </div>

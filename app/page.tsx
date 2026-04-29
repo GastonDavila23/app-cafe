@@ -3,6 +3,7 @@ import WelcomeModal from "@/components/WelcomeModal";
 import BottomNav from "@/components/BottomNav";
 import Header from "@/components/Header";
 import ProductList from "@/components/ProductList";
+import FloatingCart from "@/components/FloatingCart";
 
 export const revalidate = 0;
 
@@ -21,6 +22,8 @@ export default async function Home() {
       <WelcomeModal /> 
 
       <Header />
+
+      <FloatingCart />
       
       <ProductList products={products} />
 

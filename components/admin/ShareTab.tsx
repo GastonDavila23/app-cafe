@@ -16,7 +16,6 @@ export default function ShareTab() {
         console.log("Error al compartir", err);
       }
     } else {
-      // Si está en PC, copiamos al portapapeles
       navigator.clipboard.writeText(websiteUrl);
       alert("¡Link copiado al portapapeles!");
     }

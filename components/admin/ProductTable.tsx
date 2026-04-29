@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import { Edit2, Ban, CheckCircle2, Trash2 } from "lucide-react";
-import Pagination from "./Pagination"; // Importamos nuestro nuevo componente
-
+import Pagination from "./Pagination";
 interface AdminProduct {
   id: number;
   name: string;
   description: string;
   price: number;
   in_stock: boolean;
+  options: string[];
 }
 
 interface ProductTableProps {

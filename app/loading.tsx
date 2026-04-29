@@ -6,7 +6,6 @@ export default function Loading() {
         <div className="h-6 bg-neutral-300 rounded w-1/2 mx-auto"></div>
       </div>
       <div className="max-w-md mx-auto grid grid-cols-1 gap-6 md:max-w-4xl md:grid-cols-2">
-        {/* Mostramos 4 tarjetas grises parpadeantes */}
         {[1, 2, 3, 4].map((i) => (
           <div key={i} className="bg-white rounded-2xl shadow-md h-96 animate-pulse p-4 flex flex-col">
             <div className="bg-neutral-300 h-48 w-full rounded-xl mb-4"></div>
